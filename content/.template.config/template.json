@@ -1,0 +1,84 @@
+{
+    "$schema": "http://json.schemastore.org/template",
+    "author": "FewBox",
+    "classifications": [ "FewBox", "Service" ],
+    "identity": "FewBox.Template.Service",
+    "name": "FewBox Service",
+    "shortName": "fb-svc",
+    "tags": {
+        "language": "C#",
+        "type":"svc"
+    },
+    "sourceName": "FewBox.Template.Service",
+    "preferNameDirectory": true,
+    "symbols": {
+        "copyrightName": {
+            "type": "parameter",
+            "defaultValue": "© 2019 FewBox",
+            "replaces":"FB_COPYRIGHTNAME"
+        },
+        "travisName": {
+            "type": "parameter",
+            "defaultValue": "FewBox",
+            "replaces":"FB_TRAVISNAME"
+        },
+        "serviceName": {
+            "type": "parameter",
+            "defaultValue": "demo",
+            "replaces": "FB_APPRNAME",
+            "isRequired": true
+        },
+        "enableDatabase": {
+            "type": "parameter",
+            "dataType":"bool",
+            "defaultValue": "false"
+        },
+        "securityType":{
+            "type":"parameter",
+            "datatype": "choice",
+            "defaultValue":"Public",
+            "choices": [
+              {
+                "choice": "Public",
+                "description": "public"
+              },
+              {
+                "choice": "Private",
+                "description":"private"
+              }
+            ],
+            "replaces":"FB_SECURITYTYPE"
+        },
+        "skipRestore": {
+          "type": "parameter",
+          "datatype": "bool",
+          "description": "If specified, skips the automatic restore of the project on create.",
+          "defaultValue": "false"
+        }
+    },
+    "sources": [
+        {
+          "modifiers": [
+            {
+              "condition": "(!enableDatabase)",
+              "exclude": [
+                "FewBox.Template.Service/AutoMapperProfiles/**/*",
+                "FewBox.Template.Service.Repository/**/*",
+                "FewBox.Template.Service.Model/Repositories",
+                "FewBox.Template.Service.Model/Entities"
+              ]
+            }
+          ]
+        }
+    ],
+    "postActions": [
+      {
+        "condition": "(!skipRestore)",
+        "description": "Restore NuGet packages required by this project.",
+        "manualInstructions": [
+          { "text": "Run 'dotnet restore'" }
+        ],
+        "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+        "continueOnError": true
+      }]
+}

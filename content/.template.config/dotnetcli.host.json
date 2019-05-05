@@ -1,0 +1,28 @@
+{
+    "symbolInfo": {
+        "copyrightName": {
+            "longName": "copyright-name",
+            "shortName": "cn"
+        },
+        "travisName": {
+            "longName": "travis-name",
+            "shortName": "tn"
+        },
+        "serviceName": {
+            "longName": "service-name",
+            "shortName": "sn"
+        },
+        "enableDatabase": {
+            "longName": "enable-database",
+            "shortName": "ed"
+        },
+        "securityType": {
+            "longName": "security-type",
+            "shortName": "st"
+        },
+        "skipRestore": {
+            "longName": "skip-restore",
+            "shortName": "sr"
+        }
+    }
+}

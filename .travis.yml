@@ -1,0 +1,11 @@
+language: csharp
+mono: none
+sudo: required
+dist: xenial
+dotnet: 2.2
+env:
+  - PROJECTNAME=FewBox.Template.Service
+script:
+  - nuget pack $TRAVIS_BUILD_DIR/$PROJECTNAME/content/$PROJECTNAME.nuspec
+after_success:
+  - dotnet nuget push $TRAVIS_BUILD_DIR/$PROJECTNAME/bin/Release/$PROJECTNAME.*.nupkg -k $NUGET_KEY -s https://api.nuget.org/v3/index.json
