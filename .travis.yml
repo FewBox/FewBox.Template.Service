@@ -7,6 +7,6 @@ dotnet: 2.2
 env:
   - PROJECTNAME=FewBox.Template.Service
 script:
-  - nuget pack $TRAVIS_BUILD_DIR/$PROJECTNAME/content/$PROJECTNAME.nuspec
+  - nuget pack $TRAVIS_BUILD_DIR/content/$PROJECTNAME.nuspec
 after_success:
-  - dotnet nuget push $TRAVIS_BUILD_DIR/$PROJECTNAME/bin/Release/$PROJECTNAME.*.nupkg -k $NUGET_KEY -s https://api.nuget.org/v3/index.json
+  - dotnet nuget push $TRAVIS_BUILD_DIR/content/$PROJECTNAME.*.nupkg -k $NUGET_KEY -s https://api.nuget.org/v3/index.json
