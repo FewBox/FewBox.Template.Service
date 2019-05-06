@@ -58,6 +58,8 @@ namespace FewBox.Template.Service
             // Used for [Authorize(Policy="JWTRole_ControllerAction")].
             var jwtConfig = this.Configuration.GetSection("JWTConfig").Get<JWTConfig>();
             services.AddSingleton(jwtConfig);
+            var securityConfig = this.Configuration.GetSection("SecurityConfig").Get<SecurityConfig>();
+            services.AddSingleton(securityConfig);
             // Used for Config.
             var healthyConfig = this.Configuration.GetSection("HealthyConfig").Get<HealthyConfig>();
             services.AddSingleton(healthyConfig);
