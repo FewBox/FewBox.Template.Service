@@ -87,13 +87,15 @@
             {
               "condition": "(securityType==Private)",
               "exclude": [
-                "FewBox.Template.Service/Controllers/AppsController.cs"
+                "FewBox.Template.Service/Controllers/AppsController.cs",
+                "FewBox.Template.Service/Controllers/HealthyController.cs"
               ]
             },
             {
               "condition": "(securityType==Public)",
               "exclude": [
-                "FewBox.Template.Service/Controllers/AppsController.Private.cs"
+                "FewBox.Template.Service/Controllers/AppsController.Private.cs",
+                "FewBox.Template.Service/Controllers/HealthyController.Private.cs"
               ]
             }
           ]
