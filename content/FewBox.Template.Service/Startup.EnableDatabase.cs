@@ -1,6 +1,7 @@
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using FewBox.Core.Persistence.Orm;
 using FewBox.Core.Web.Config;

@@ -1,6 +1,8 @@
 using AutoMapper;
+using FewBox.Template.Service.Model.Entities;
 using FewBox.Template.Service.Model.Dtos;
 using FewBox.Template.Service.Model.Repositories;
+using FewBox.Template.Service.Repository;
 using FewBox.Core.Web.Controller;
 using FewBox.Core.Web.Dto;
 using FewBox.Core.Web.Filter;
@@ -28,15 +30,6 @@ namespace FewBox.Template.Service.Controllers
             return new PayloadResponseDto<IEnumerable<AppDto>>
             {
                 Payload = this.Mapper.Map<IEnumerable<App>, IEnumerable<AppDto>>(this.AppRepository.FindAll())
-            };
-        }
-
-        [HttpGet("search/{keyword}")]
-        public PayloadResponseDto<IEnumerable<AppDto>> Get(string keyword)
-        {
-            return new PayloadResponseDto<IEnumerable<AppDto>>
-            {
-                Payload = this.Mapper.Map<IEnumerable<App>, IEnumerable<AppDto>>(this.AppRepository.FindAllByKeyword(keyword))
             };
         }
 

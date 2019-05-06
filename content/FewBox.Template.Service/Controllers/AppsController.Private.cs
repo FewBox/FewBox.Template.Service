@@ -32,15 +32,6 @@ namespace FewBox.Template.Service.Controllers
             };
         }
 
-        [HttpGet("search/{keyword}")]
-        public PayloadResponseDto<IEnumerable<AppDto>> Get(string keyword)
-        {
-            return new PayloadResponseDto<IEnumerable<AppDto>>
-            {
-                Payload = this.Mapper.Map<IEnumerable<App>, IEnumerable<AppDto>>(this.AppRepository.FindAllByKeyword(keyword))
-            };
-        }
-
         [HttpGet("paging/{pageIndex}/{pageRange}")]
         public PayloadResponseDto<PagingDto<AppDto>> Get(int pageIndex = 1, int pageRange = 5)
         {

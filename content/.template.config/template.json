@@ -12,6 +12,11 @@
     "sourceName": "FewBox.Template.Service",
     "preferNameDirectory": true,
     "symbols": {
+        "companyName": {
+          "type": "parameter",
+          "defaultValue": "FewBox",
+          "replaces":"FB_COMPANYNAME"
+        },
         "copyrightName": {
             "type": "parameter",
             "defaultValue": "© 2019 FewBox",
@@ -74,7 +79,9 @@
                 "FewBox.Template.Service.Model/Entities/**/*",
                 "FewBox.Template.Service/Startup.EnableDatabase.cs",
                 "FewBox.Template.Service/Controllers/AppsController.cs",
-                "FewBox.Template.Service/Controllers/AppsController.Private.cs"
+                "FewBox.Template.Service/Controllers/AppsController.Private.cs",
+                "Clean.sql",
+                "Init.sql"
               ]
             },
             {

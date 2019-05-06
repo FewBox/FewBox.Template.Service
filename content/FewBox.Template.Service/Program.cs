@@ -1,3 +1,5 @@
+/* Company: FB_COMPANYNAME */
+/* FB_COPYRIGHTNAME */
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -8,7 +10,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-/// FB_COPYRIGHTNAME
 namespace FewBox.Template.Service
 {
     public class Program
