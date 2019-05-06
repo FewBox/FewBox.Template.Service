@@ -13,6 +13,7 @@ using System.Collections.Generic;
 namespace FewBox.Template.Service.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize(Policy="JWTRole_ControllerAction")]
     public class AppsController : MapperController
     {
         private IAppRepository AppRepository { get; set; }

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="FewBox.Core.Persistence" Version="1.0.27" />
+    <PackageReference Include="FewBox.Core.Web" Version="1.0.41" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="NSwag.AspNetCore" Version="12.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FewBox.Template.Service.Model\FewBox.Template.Service.Model.csproj" />
+    <ProjectReference Include="..\FewBox.Template.Service.Domain\FewBox.Template.Service.Domain.csproj" />
+    <ProjectReference Include="..\FewBox.Template.Service.Repository\FewBox.Template.Service.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

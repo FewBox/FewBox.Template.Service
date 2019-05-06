@@ -25,7 +25,7 @@
         "serviceName": {
             "type": "parameter",
             "defaultValue": "demo",
-            "replaces": "FB_APPRNAME",
+            "replaces": "FB_SERVICERNAME",
             "isRequired": true
         },
         "enableDatabase": {
@@ -60,12 +60,33 @@
         {
           "modifiers": [
             {
+              "condition": "(enableDatabase)",
+              "exclude": [
+                "FewBox.Template.Service/Startup.cs"
+              ]
+            },
+            {
               "condition": "(!enableDatabase)",
               "exclude": [
                 "FewBox.Template.Service/AutoMapperProfiles/**/*",
                 "FewBox.Template.Service.Repository/**/*",
-                "FewBox.Template.Service.Model/Repositories",
-                "FewBox.Template.Service.Model/Entities"
+                "FewBox.Template.Service.Model/Repositories/**/*",
+                "FewBox.Template.Service.Model/Entities/**/*",
+                "FewBox.Template.Service/Startup.EnableDatabase.cs",
+                "FewBox.Template.Service/Controllers/AppsController.cs",
+                "FewBox.Template.Service/Controllers/AppsController.Private.cs"
+              ]
+            },
+            {
+              "condition": "(securityType==Private)",
+              "exclude": [
+                "FewBox.Template.Service/Controllers/AppsController.cs"
+              ]
+            },
+            {
+              "condition": "(securityType==Public)",
+              "exclude": [
+                "FewBox.Template.Service/Controllers/AppsController.Private.cs"
               ]
             }
           ]

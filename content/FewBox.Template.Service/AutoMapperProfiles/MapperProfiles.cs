@@ -1,8 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
-using FewBox.Service.Auth.Model.Dtos;
-using FewBox.Service.Auth.Model.Entities;
+using FewBox.Template.Service.Model.Dtos;
+using FewBox.Template.Service.Model.Entities;
 
 namespace FewBox.Template.Service.AutoMapperProfiles
 {

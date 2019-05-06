@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FewBox.Core.Persistence" Version="1.0.27" />
+    <PackageReference Include="FewBox.Core.Web" Version="1.0.41" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FewBox.Template.Service.Model\FewBox.Template.Service.Model.csproj" />
+    <ProjectReference Include="..\FewBox.Template.Service.Repository\FewBox.Template.Service.Repository.csproj" />
+  </ItemGroup>
+
+</Project>

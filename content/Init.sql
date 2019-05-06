@@ -1,4 +1,4 @@
-USE FB_APPRNAME;
+USE FB_SERVICERNAME;
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
