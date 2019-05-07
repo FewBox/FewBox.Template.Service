@@ -1,10 +1,10 @@
 using AutoMapper;
+using FewBox.Template.Service.Model.Entities;
 using FewBox.Template.Service.Model.Dtos;
 using FewBox.Template.Service.Model.Repositories;
 using FewBox.Core.Web.Controller;
 using FewBox.Core.Web.Dto;
 using FewBox.Core.Web.Filter;
-using FewBox.Core.Web.Security;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System;
