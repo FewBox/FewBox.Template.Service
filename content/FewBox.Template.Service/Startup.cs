@@ -95,8 +95,8 @@ namespace FewBox.Template.Service
                 config.PostProcess = document =>
                 {
                     document.Info.Version = "v1";
-                    document.Info.Title = "FewBox FB_SERVICERNAME Api";
-                    document.Info.Description = "FewBox FB_SERVICERNAME, for more information please visit the 'https://fewbox.com'";
+                    document.Info.Title = "FewBox FB_SERVICENAME Api";
+                    document.Info.Description = "FewBox FB_SERVICENAME, for more information please visit the 'https://fewbox.com'";
                     document.Info.TermsOfService = "https://fewbox.com/terms";
                     document.Info.Contact = new NSwag.SwaggerContact
                     {

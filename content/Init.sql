@@ -1,4 +1,4 @@
-USE FB_SERVICERNAME;
+USE FB_SERVICENAME;
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------

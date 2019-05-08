@@ -30,7 +30,7 @@
         "serviceName": {
             "type": "parameter",
             "defaultValue": "demo",
-            "replaces": "FB_SERVICERNAME",
+            "replaces": "FB_SERVICENAME",
             "isRequired": true
         },
         "enableDatabase": {
