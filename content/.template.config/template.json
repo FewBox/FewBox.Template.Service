@@ -19,7 +19,7 @@
         },
         "copyrightName": {
             "type": "parameter",
-            "defaultValue": "© 2019 FewBox",
+            "defaultValue": "Copyright 2019 FewBox",
             "replaces":"FB_COPYRIGHTNAME"
         },
         "travisName": {
