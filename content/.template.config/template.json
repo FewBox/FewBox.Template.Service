@@ -41,7 +41,7 @@
         "serviceType":{
             "type":"parameter",
             "datatype": "choice",
-            "defaultValue":"APIGateway",
+            "defaultValue":"Microservice",
             "choices": [
               {
                 "choice": "APIGateway",
@@ -84,14 +84,14 @@
               ]
             },
             {
-              "condition": "(serviceType==Microservice)",
+              "condition": "(serviceType==APIGateway)",
               "exclude": [
                 "FewBox.Template.Service/Controllers/AppsController.cs",
                 "FewBox.Template.Service/Controllers/HealthyController.cs"
               ]
             },
             {
-              "condition": "(serviceType==APIGateway)",
+              "condition": "(serviceType==Microservice)",
               "exclude": [
                 "FewBox.Template.Service/Controllers/AppsController.Private.cs",
                 "FewBox.Template.Service/Controllers/HealthyController.Private.cs"
