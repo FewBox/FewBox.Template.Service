@@ -25,6 +25,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using NSwag;
 using NSwag.SwaggerGeneration.Processors.Security;
+using Dapper;
 
 namespace FewBox.Template.Service
 {
