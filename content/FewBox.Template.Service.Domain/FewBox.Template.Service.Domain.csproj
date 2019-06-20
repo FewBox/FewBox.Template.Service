@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FewBox.Core.Utility" Version="1.0.15" />
-    <PackageReference Include="FewBox.Core.Persistence" Version="1.0.28" />
-    <PackageReference Include="FewBox.Core.Web" Version="1.0.42" />
+    <PackageReference Include="FewBox.Core.Utility" Version="1.0.19" />
+    <PackageReference Include="FewBox.Core.Persistence" Version="1.0.35" />
+    <PackageReference Include="FewBox.Core.Web" Version="1.0.47" />
   </ItemGroup>
 
   <ItemGroup>

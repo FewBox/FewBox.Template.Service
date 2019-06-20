@@ -12,12 +12,12 @@
             "longName": "service-name",
             "shortName": "sn"
         },
-        "enableDatabase": {
-            "longName": "enable-database",
-            "shortName": "ed"
+        "enablePersistence": {
+            "longName": "enable-persistence",
+            "shortName": "ep"
         },
-        "securityType": {
-            "longName": "security-type",
+        "serviceType": {
+            "longName": "service-type",
             "shortName": "st"
         },
         "skipRestore": {

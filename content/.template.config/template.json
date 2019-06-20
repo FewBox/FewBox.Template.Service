@@ -33,26 +33,25 @@
             "replaces": "FB_SERVICENAME",
             "isRequired": true
         },
-        "enableDatabase": {
+        "enablePersistence": {
             "type": "parameter",
             "dataType":"bool",
-            "defaultValue": "false"
+            "defaultValue": "true"
         },
-        "securityType":{
+        "serviceType":{
             "type":"parameter",
             "datatype": "choice",
-            "defaultValue":"Public",
+            "defaultValue":"APIGateway",
             "choices": [
               {
-                "choice": "Public",
-                "description": "public"
+                "choice": "APIGateway",
+                "description": "API gateway for client."
               },
               {
-                "choice": "Private",
-                "description":"private"
+                "choice": "Microservice",
+                "description":"Normal microservice."
               }
-            ],
-            "replaces":"FB_SECURITYTYPE"
+            ]
         },
         "skipRestore": {
           "type": "parameter",
@@ -65,19 +64,19 @@
         {
           "modifiers": [
             {
-              "condition": "(enableDatabase)",
+              "condition": "(enablePersistence)",
               "exclude": [
                 "FewBox.Template.Service/Startup.cs"
               ]
             },
             {
-              "condition": "(!enableDatabase)",
+              "condition": "(!enablePersistence)",
               "exclude": [
                 "FewBox.Template.Service/AutoMapperProfiles/**/*",
                 "FewBox.Template.Service.Repository/**/*",
                 "FewBox.Template.Service.Model/Repositories/**/*",
                 "FewBox.Template.Service.Model/Entities/**/*",
-                "FewBox.Template.Service/Startup.EnableDatabase.cs",
+                "FewBox.Template.Service/Startup.EnablePersistence.cs",
                 "FewBox.Template.Service/Controllers/AppsController.cs",
                 "FewBox.Template.Service/Controllers/AppsController.Private.cs",
                 "Clean.sql",
@@ -85,14 +84,14 @@
               ]
             },
             {
-              "condition": "(securityType==Private)",
+              "condition": "(serviceType==Microservice)",
               "exclude": [
                 "FewBox.Template.Service/Controllers/AppsController.cs",
                 "FewBox.Template.Service/Controllers/HealthyController.cs"
               ]
             },
             {
-              "condition": "(securityType==Public)",
+              "condition": "(serviceType==APIGateway)",
               "exclude": [
                 "FewBox.Template.Service/Controllers/AppsController.Private.cs",
                 "FewBox.Template.Service/Controllers/HealthyController.Private.cs"

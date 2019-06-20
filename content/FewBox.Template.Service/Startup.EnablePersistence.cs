@@ -40,6 +40,7 @@ namespace FewBox.Template.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            SqlMapper.AddTypeHandler(new SQLiteGuidTypeHandler()); // Note: SQLite
             services.AddMvc(options=>{
                 options.Filters.Add<ExceptionAsyncFilter>();
                 options.Filters.Add<TransactionAsyncFilter>();
@@ -72,7 +73,8 @@ namespace FewBox.Template.Service
             services.AddScoped<IAuthenticationService, RemoteAuthenticationService>();
             // Used for ORM.
             services.AddScoped<IOrmConfiguration, AppSettingOrmConfiguration>();
-            services.AddScoped<IOrmSession, MySqlSession>();
+            // services.AddScoped<IOrmSession, MySqlSession>(); // Note: MySql
+            services.AddScoped<IOrmSession, SQLiteSession>(); // Note: SQLite
             services.AddScoped<ICurrentUser<Guid>, CurrentUser<Guid>>();
             // Used for Application.
             services.AddScoped<IAppRepository, AppRepository>();
