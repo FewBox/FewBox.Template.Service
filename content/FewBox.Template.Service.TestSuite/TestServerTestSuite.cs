@@ -25,21 +25,21 @@ namespace FewBox.Service.Shipping.TestSuite
         }
 
         [TestMethod]
-        public void TestAPP()
+        public async Task TestAPP()
         {
-            TestServerWapper(async (client)=>{
+            await TestServerWapper(async (client)=>{
                 string result = await client.GetStringAsync("/api/apps");
-                    Assert.AreEqual(@"{""payload"":[],""isSuccessful"":true,""errorMessage"":null,""errorCode"":null}", result);
+                Assert.AreEqual(@"{""payload"":[],""isSuccessful"":true,""errorMessage"":null,""errorCode"":null}", result);
             });
         }
 
-        private Task TestServerWapper(Func<HttpClient, Task> func)
+        private async Task TestServerWapper(Func<HttpClient, Task> func)
         {
             using (var server = new TestServer(this.WebHostBuilder))
             {
                 using (var client = server.CreateClient())
                 {
-                    return func(client);
+                    await func(client);
                 }
             }
         }
