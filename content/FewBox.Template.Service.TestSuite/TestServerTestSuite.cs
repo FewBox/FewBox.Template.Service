@@ -33,15 +33,21 @@ namespace FewBox.Service.Shipping.TestSuite
             });
         }
 
-        private void TestServerWapper(Action<HttpClient> action)
+        private Task TestServerWapper(Func<HttpClient, Task> func)
         {
             using (var server = new TestServer(this.WebHostBuilder))
             {
                 using (var client = server.CreateClient())
                 {
-                    action(client);
+                    return func(client);
                 }
             }
+        }
+
+        private StringContent ConvertBodyObjectToStringContent<T>(T body)
+        {
+            string jsonString = JsonUtility.Serialize<T>(body);
+            return new StringContent(jsonString, Encoding.UTF8, "application/json");
         }
     }
 }
