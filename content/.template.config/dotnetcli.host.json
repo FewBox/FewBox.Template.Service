@@ -16,9 +16,9 @@
             "longName": "enable-persistence",
             "shortName": "ep"
         },
-        "serviceType": {
-            "longName": "service-type",
-            "shortName": "st"
+        "enableAuthentication": {
+            "longName": "enable-authentication",
+            "shortName": "ea"
         },
         "skipRestore": {
             "longName": "skip-restore",

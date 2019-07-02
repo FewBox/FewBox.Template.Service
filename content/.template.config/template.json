@@ -1,113 +1,108 @@
 {
-    "$schema": "http://json.schemastore.org/template",
-    "author": "FewBox",
-    "classifications": [ "FewBox", "Service" ],
-    "identity": "FewBox.Template.Service",
-    "name": "FewBox Service",
-    "shortName": "fb-svc",
-    "tags": {
-        "language": "C#",
-        "type":"svc"
+  "$schema": "http://json.schemastore.org/template",
+  "author": "FewBox",
+  "classifications": [
+    "FewBox",
+    "Service"
+  ],
+  "identity": "FewBox.Template.Service",
+  "name": "FewBox Service",
+  "shortName": "fb-svc",
+  "tags": {
+    "language": "C#",
+    "type": "svc"
+  },
+  "sourceName": "FewBox.Template.Service",
+  "preferNameDirectory": true,
+  "symbols": {
+    "companyName": {
+      "type": "parameter",
+      "defaultValue": "FewBox",
+      "replaces": "FB_COMPANYNAME"
     },
-    "sourceName": "FewBox.Template.Service",
-    "preferNameDirectory": true,
-    "symbols": {
-        "companyName": {
-          "type": "parameter",
-          "defaultValue": "FewBox",
-          "replaces":"FB_COMPANYNAME"
-        },
-        "copyrightName": {
-            "type": "parameter",
-            "defaultValue": "Copyright 2019 FewBox",
-            "replaces":"FB_COPYRIGHTNAME"
-        },
-        "travisName": {
-            "type": "parameter",
-            "defaultValue": "FewBox",
-            "replaces":"FB_TRAVISNAME"
-        },
-        "serviceName": {
-            "type": "parameter",
-            "defaultValue": "demo",
-            "replaces": "FB_SERVICENAME",
-            "isRequired": true
-        },
-        "enablePersistence": {
-            "type": "parameter",
-            "dataType":"bool",
-            "defaultValue": "true"
-        },
-        "serviceType":{
-            "type":"parameter",
-            "datatype": "choice",
-            "defaultValue":"Microservice",
-            "choices": [
-              {
-                "choice": "APIGateway",
-                "description": "API gateway for client."
-              },
-              {
-                "choice": "Microservice",
-                "description":"Normal microservice."
-              }
-            ]
-        },
-        "skipRestore": {
-          "type": "parameter",
-          "datatype": "bool",
-          "description": "If specified, skips the automatic restore of the project on create.",
-          "defaultValue": "false"
-        }
+    "copyrightName": {
+      "type": "parameter",
+      "defaultValue": "Copyright 2019 FewBox",
+      "replaces": "FB_COPYRIGHTNAME"
     },
-    "sources": [
+    "travisName": {
+      "type": "parameter",
+      "defaultValue": "FewBox",
+      "replaces": "FB_TRAVISNAME"
+    },
+    "serviceName": {
+      "type": "parameter",
+      "replaces": "FB_SERVICENAME",
+      "isRequired": true
+    },
+    "enablePersistence": {
+      "type": "parameter",
+      "dataType": "bool",
+      "defaultValue": "true"
+    },
+    "enableAuthentication": {
+      "type": "parameter",
+      "datatype": "bool",
+      "defaultValue": "false"
+    },
+    "skipRestore": {
+      "type": "parameter",
+      "datatype": "bool",
+      "description": "If specified, skips the automatic restore of the project on create.",
+      "defaultValue": "false"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
         {
-          "modifiers": [
-            {
-              "condition": "(enablePersistence)",
-              "exclude": [
-                "FewBox.Template.Service/Startup.cs"
-              ]
-            },
-            {
-              "condition": "(!enablePersistence)",
-              "exclude": [
-                "FewBox.Template.Service/AutoMapperProfiles/**/*",
-                "FewBox.Template.Service.Repository/**/*",
-                "FewBox.Template.Service.Model/Repositories/**/*",
-                "FewBox.Template.Service.Model/Entities/**/*",
-                "FewBox.Template.Service/Startup.EnablePersistence.cs",
-                "FewBox.Template.Service/Controllers/AppsController.cs",
-                "FewBox.Template.Service/Controllers/AppsController.Private.cs",
-                "Clean.sql",
-                "Init.sql"
-              ]
-            },
-            {
-              "condition": "(serviceType==APIGateway)",
-              "exclude": [
-                "FewBox.Template.Service/Controllers/AppsController.cs",
-                "FewBox.Template.Service/Controllers/HealthyController.cs"
-              ]
-            },
-            {
-              "condition": "(serviceType==Microservice)",
-              "exclude": [
-                "FewBox.Template.Service/Controllers/AppsController.Private.cs",
-                "FewBox.Template.Service/Controllers/HealthyController.Private.cs"
-              ]
-            }
+          "condition": "(enablePersistence)",
+          "exclude": [
+            "FewBox.Template.Service/Startup.cs"
+          ]
+        },
+        {
+          "condition": "(!enablePersistence)",
+          "exclude": [
+            "FewBox.Template.Service/AutoMapperProfiles/**/*",
+            "FewBox.Template.Service.Repository/**/*",
+            "FewBox.Template.Service.Model/Repositories/**/*",
+            "FewBox.Template.Service.Model/Entities/**/*",
+            "FewBox.Template.Service/Startup.EnablePersistence.cs",
+            "FewBox.Template.Service/Controllers/AppsController.cs",
+            "FewBox.Template.Service/Controllers/AppsController.Private.cs",
+            "Clean.sql",
+            "Init.sql"
+          ]
+        },
+        {
+          "condition": "(!enableAuthentication)",
+          "exclude": [
+            "FewBox.Template.Service/Controllers/AppsController.cs",
+            "FewBox.Template.Service/Controllers/HealthyController.cs"
+          ]
+        },
+        {
+          "condition": "(enableAuthentication)",
+          "exclude": [
+            "FewBox.Template.Service/Controllers/AppsController.Private.cs",
+            "FewBox.Template.Service/Controllers/HealthyController.Private.cs"
           ]
         }
-    ],
-    "postActions": [
-      {
-        "condition": "(!skipRestore)",
-        "description": "Restore NuGet packages required by this project.",
-        "manualInstructions": [
-          { "text": "Run 'dotnet restore'" }
-        ],
-        "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
-        "continueOnError": true
-      }]
+      ]
+    }
+  ],
+  "postActions": [
+    {
+      "condition": "(!skipRestore)",
+      "description": "Restore NuGet packages required by this project.",
+      "manualInstructions": [
+        {
+          "text": "Run 'dotnet restore'"
+        }
+      ],
+      "actionId": "210D431B-A78B-4D2F-B762-4ED3E3EA9025",
+      "continueOnError": true
+    }
+  ]
 }
