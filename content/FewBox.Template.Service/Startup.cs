@@ -39,7 +39,10 @@ namespace FewBox.Template.Service
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc(options=>{
-                options.Filters.Add<ExceptionAsyncFilter>();
+                if (this.HostingEnvironment.EnvironmentName != "Test")
+                {
+                    options.Filters.Add<ExceptionAsyncFilter>();
+                }
                 options.Filters.Add<TraceAsyncFilter>();
             }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .ConfigureApplicationPartManager(apm =>
