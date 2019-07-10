@@ -26,7 +26,7 @@
     <Content Include="FewBox.sqlite3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <ProjectReference Include="..\FewBox.Service.Shipping\FewBox.Service.Shipping.csproj" />
+    <ProjectReference Include="..\FewBox.Template.Service\FewBox.Template.Service.csproj" />
   </ItemGroup>
 
 </Project>

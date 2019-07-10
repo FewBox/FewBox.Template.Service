@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Net.Http;
+using System.Text;
+using System.Threading.Tasks;
+using FewBox.Core.Utility.Formatter;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace FewBox.Service.Shipping.TestSuite
+namespace FewBox.Template.Service.TestSuite
 {
     [TestClass]
     public class TestServerTestSuite
@@ -29,7 +32,7 @@ namespace FewBox.Service.Shipping.TestSuite
         {
             await TestServerWapper(async (client)=>{
                 string result = await client.GetStringAsync("/api/apps");
-                Assert.AreEqual(@"{""payload"":[],""isSuccessful"":true,""errorMessage"":null,""errorCode"":null}", result);
+                Assert.AreEqual(@"{""payload"":[],""isSuccessful"":true}", result);
             });
         }
 

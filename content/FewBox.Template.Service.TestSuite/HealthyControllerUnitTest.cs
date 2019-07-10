@@ -1,11 +1,11 @@
     
-using FewBox.Service.Shipping.Controllers;
-using FewBox.Service.Shipping.Model.Dtos;
-using FewBox.Service.Shipping.Model.Services;
+using FewBox.Template.Service.Controllers;
+using FewBox.Template.Service.Model.Dtos;
+using FewBox.Template.Service.Model.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 
-namespace FewBox.Service.Shipping.TestSuite
+namespace FewBox.Template.Service.TestSuite
 {
     [TestClass]
     public class HealthyControllerUnitTest
