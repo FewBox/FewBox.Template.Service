@@ -38,12 +38,12 @@
     "enablePersistence": {
       "type": "parameter",
       "dataType": "bool",
-      "defaultValue": "true"
+      "isRequired": true
     },
     "enableAuthentication": {
       "type": "parameter",
       "datatype": "bool",
-      "defaultValue": "false"
+      "isRequired": true
     },
     "skipRestore": {
       "type": "parameter",

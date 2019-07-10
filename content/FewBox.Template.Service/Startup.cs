@@ -28,23 +28,33 @@ namespace FewBox.Template.Service
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        public Startup(IConfiguration configuration, IHostingEnvironment hostingEnvironment)
         {
-            Configuration = configuration;
+            this.Configuration = configuration;
+            this.HostingEnvironment = hostingEnvironment;
         }
 
         public IConfiguration Configuration { get; }
+        public IHostingEnvironment HostingEnvironment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            RestfulUtility.IsCertificateNeedValidate = false;
+            RestfulUtility.IsLogging = true; // Todo: Need to remove.
+            JsonUtility.IsCamelCase = true;
+            JsonUtility.IsNullIgnore = true;
             services.AddMvc(options=>{
                 if (this.HostingEnvironment.EnvironmentName != "Test")
                 {
                     options.Filters.Add<ExceptionAsyncFilter>();
                 }
                 options.Filters.Add<TraceAsyncFilter>();
-            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+            })
+            .AddJsonOptions(options=>{
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            })
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
             .ConfigureApplicationPartManager(apm =>
             {
                 var dependentLibrary = apm.ApplicationParts
