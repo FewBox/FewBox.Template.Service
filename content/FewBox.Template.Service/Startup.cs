@@ -57,16 +57,7 @@ namespace FewBox.Template.Service
             .AddJsonOptions(options=>{
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             })
-            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
-            .ConfigureApplicationPartManager(apm =>
-            {
-                var dependentLibrary = apm.ApplicationParts
-                    .FirstOrDefault(part => part.Name == "FewBox.Core.Web");
-                if (dependentLibrary != null)
-                {
-                    apm.ApplicationParts.Remove(dependentLibrary);
-                }
-            }); // Note: Remove AuthenticationController.
+            .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddCors();
             services.AddAutoMapper();
             services.AddMemoryCache();
