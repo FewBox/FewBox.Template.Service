@@ -150,7 +150,6 @@ namespace FewBox.Template.Service
             app.UseSwagger();
             if (env.IsDevelopment() || env.IsStaging())  
             {
-                app.UseSwagger();  
                 app.UseSwaggerUi3();  
             }
             else
