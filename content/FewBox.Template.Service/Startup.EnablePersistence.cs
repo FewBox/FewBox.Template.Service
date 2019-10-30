@@ -1,7 +1,6 @@
 using AutoMapper;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using FewBox.Core.Persistence.Orm;
 using FewBox.Core.Utility.Net;
@@ -11,11 +10,11 @@ using FewBox.Core.Web.Filter;
 using FewBox.Core.Web.Orm;
 using FewBox.Core.Web.Security;
 using FewBox.Core.Web.Token;
-using FewBox.Template.Service.Domain;
-using FewBox.Template.Service.Model.Configs;
-using FewBox.Template.Service.Model.Repositories;
-using FewBox.Template.Service.Model.Services;
-using FewBox.Template.Service.Repository;
+using FewBox.Service.Log.Domain;
+using FewBox.Service.Log.Model.Configs;
+using FewBox.Service.Log.Model.Repositories;
+using FewBox.Service.Log.Model.Services;
+using FewBox.Service.Log.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +28,7 @@ using Newtonsoft.Json;
 using NSwag;
 using NSwag.SwaggerGeneration.Processors.Security;
 using Dapper;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace FewBox.Template.Service
 {

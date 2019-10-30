@@ -1,17 +1,20 @@
 using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.Text;
 using FewBox.Core.Persistence.Orm;
+using FewBox.Core.Utility.Net;
+using FewBox.Core.Utility.Formatter;
 using FewBox.Core.Web.Config;
 using FewBox.Core.Web.Filter;
 using FewBox.Core.Web.Orm;
 using FewBox.Core.Web.Security;
 using FewBox.Core.Web.Token;
-using FewBox.Service.Shipping.Domain;
-using FewBox.Service.Shipping.Model.Configs;
-using FewBox.Service.Shipping.Model.Repositories;
-using FewBox.Service.Shipping.Model.Services;
-using FewBox.Service.Shipping.Repository;
+using FewBox.Service.Log.Domain;
+using FewBox.Service.Log.Model.Configs;
+using FewBox.Service.Log.Model.Repositories;
+using FewBox.Service.Log.Model.Services;
+using FewBox.Service.Log.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -25,10 +28,6 @@ using Newtonsoft.Json;
 using NSwag;
 using NSwag.SwaggerGeneration.Processors.Security;
 using Dapper;
-using FewBox.Core.Utility.Net;
-using FewBox.Service.Shipping.Domain.Kubernetes;
-using FewBox.Core.Utility.Formatter;
-using FewBox.Service.Shipping.Middlewares;
 using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace FewBox.Template.Service
