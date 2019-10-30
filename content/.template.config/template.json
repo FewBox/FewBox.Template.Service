@@ -78,15 +78,13 @@
         {
           "condition": "(!enableAuthentication)",
           "exclude": [
-            "FewBox.Template.Service/Controllers/AppsController.cs",
-            "FewBox.Template.Service/Controllers/HealthyController.cs"
+            "FewBox.Template.Service/Controllers/AppsController.cs"
           ]
         },
         {
           "condition": "(enableAuthentication)",
           "exclude": [
-            "FewBox.Template.Service/Controllers/AppsController.Private.cs",
-            "FewBox.Template.Service/Controllers/HealthyController.Private.cs"
+            "FewBox.Template.Service/Controllers/AppsController.Private.cs"
           ]
         }
       ]

@@ -51,10 +51,17 @@ namespace FewBox.Template.Service
             RestfulUtility.IsLogging = true; // Todo: Need to remove.
             JsonUtility.IsCamelCase = true;
             JsonUtility.IsNullIgnore = true;
+            HttpUtility.IsCertificateNeedValidate = false;
+            HttpUtility.IsEnsureSuccessStatusCode = false;
+            services.AddRouting(options => options.LowercaseUrls = true);
             services.AddMvc(options=>{
                 if (this.HostingEnvironment.EnvironmentName != "Test")
                 {
                     options.Filters.Add<ExceptionAsyncFilter>();
+                }
+                if (this.HostingEnvironment.EnvironmentName == "Development")
+                {
+                    options.Filters.Add(new AllowAnonymousFilter());
                 }
                 options.Filters.Add<TransactionAsyncFilter>();
                 options.Filters.Add<TraceAsyncFilter>();
@@ -63,22 +70,40 @@ namespace FewBox.Template.Service
                 options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
             })
             .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddCors();
+            services.AddCors(
+                options =>
+                {
+                    options.AddDefaultPolicy(
+                        builder =>
+                        {
+                            builder.SetIsOriginAllowedToAllowWildcardSubdomains().WithOrigins("https://fewbox.com").AllowAnyMethod().AllowAnyHeader();
+                        });
+                    options.AddPolicy("all",
+                        builder =>
+                        {
+                            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                        });
+
+                });
             services.AddAutoMapper();
             services.AddMemoryCache();
             services.AddRouting(options => options.LowercaseUrls = true);
+            // Used for Config.
             // Used for [Authorize(Policy="JWTRole_ControllerAction")].
             var jwtConfig = this.Configuration.GetSection("JWTConfig").Get<JWTConfig>();
             services.AddSingleton(jwtConfig);
             var securityConfig = this.Configuration.GetSection("SecurityConfig").Get<SecurityConfig>();
             services.AddSingleton(securityConfig);
-            // Used for Config.
             var healthyConfig = this.Configuration.GetSection("HealthyConfig").Get<HealthyConfig>();
             services.AddSingleton(healthyConfig);
+            var logConfig = this.Configuration.GetSection("LogConfig").Get<LogConfig>();
+            services.AddSingleton(logConfig);
+            var notificationConfig = this.Configuration.GetSection("NotificationConfig").Get<NotificationConfig>();
+            services.AddSingleton(notificationConfig);
             // Used for RBAC AOP.
             services.AddScoped<IAuthorizationHandler, RoleHandler>();
             services.AddSingleton<IAuthorizationPolicyProvider, RoleAuthorizationPolicyProvider>();
-            services.AddScoped<IAuthenticationService, RemoteAuthenticationService>();
+            services.AddScoped<IAuthService, RemoteAuthService>();
             // Used for ORM.
             services.AddScoped<IOrmConfiguration, AppSettingOrmConfiguration>();
             // services.AddScoped<IOrmSession, MySqlSession>(); // Note: MySql
@@ -90,10 +115,13 @@ namespace FewBox.Template.Service
             // Used for Exception&Log AOP.
             services.AddScoped<IExceptionHandler, ConsoleExceptionHandler>();
             services.AddScoped<ITraceHandler, ConsoleTraceHandler>();
+            //services.AddScoped<IExceptionHandler, ServiceExceptionHandler>();
+            //services.AddScoped<ITraceHandler, ServiceTraceHandler>();
             // Used for IHttpContextAccessor&IActionContextAccessor context.
             services.AddHttpContextAccessor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
             // Used for JWT.
+            services.AddScoped<ITokenService, JWTToken>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
@@ -102,7 +130,7 @@ namespace FewBox.Template.Service
                     ValidateIssuer = true,
                     ValidateAudience = false,
                     ValidateLifetime = true,
-                    ValidateIssuerSigningKey = true,
+                    ValidateIssuerSigningKey = false, // Remove SigningKey validation, change to Auth service.
                     ValidIssuer = jwtConfig.Issuer,
                     ValidAudience = jwtConfig.Issuer,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key))
@@ -154,20 +182,21 @@ namespace FewBox.Template.Service
                 app.UseHsts();
             }
 
-            app.UseAuthentication();
-            //app.UseHttpsRedirection();
-            app.UseMvc();
+            //app.UseAuthentication();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSwagger();
             if (env.IsDevelopment() || env.IsStaging())  
             {
+                app.UseCors("all");
                 app.UseSwaggerUi3();  
             }
             else
             {
+                app.UseCors("all");
                 app.UseReDoc();
             }
-            app.UseCors();
+            app.UseMvc();
         }
     }
 }
