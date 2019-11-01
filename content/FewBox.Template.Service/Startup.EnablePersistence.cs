@@ -10,11 +10,11 @@ using FewBox.Core.Web.Filter;
 using FewBox.Core.Web.Orm;
 using FewBox.Core.Web.Security;
 using FewBox.Core.Web.Token;
-using FewBox.Service.Log.Domain;
-using FewBox.Service.Log.Model.Configs;
-using FewBox.Service.Log.Model.Repositories;
-using FewBox.Service.Log.Model.Services;
-using FewBox.Service.Log.Repository;
+using FewBox.Template.Service.Domain;
+using FewBox.Template.Service.Model.Configs;
+using FewBox.Template.Service.Model.Repositories;
+using FewBox.Template.Service.Model.Services;
+using FewBox.Template.Service.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -100,6 +100,8 @@ namespace FewBox.Template.Service
             services.AddSingleton(logConfig);
             var notificationConfig = this.Configuration.GetSection("NotificationConfig").Get<NotificationConfig>();
             services.AddSingleton(notificationConfig);
+            var fewBoxConfig = this.Configuration.GetSection("FewBoxConfig").Get<FewBoxConfig>();
+            services.AddSingleton(fewBoxConfig);
             // Used for RBAC AOP.
             services.AddScoped<IAuthorizationHandler, RoleHandler>();
             services.AddSingleton<IAuthorizationPolicyProvider, RoleAuthorizationPolicyProvider>();
@@ -111,7 +113,7 @@ namespace FewBox.Template.Service
             services.AddScoped<ICurrentUser<Guid>, CurrentUser<Guid>>();
             // Used for Application.
             services.AddScoped<IAppRepository, AppRepository>();
-            services.AddScoped<IAppService, AppService>();
+            services.AddScoped<IFewBoxService, FewBoxService>();
             // Used for Exception&Log AOP.
             services.AddScoped<IExceptionHandler, ConsoleExceptionHandler>();
             services.AddScoped<ITraceHandler, ConsoleTraceHandler>();

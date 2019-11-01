@@ -2,8 +2,8 @@ using FewBox.Template.Service.Model.Dtos;
 
 namespace FewBox.Template.Service.Model.Services
 {
-    public interface IAppService
+    public interface IFewBoxService
     {
-        HealthyDto GetHealtyInfo();
+        AuthorDto GetAuthor();
     }
 }

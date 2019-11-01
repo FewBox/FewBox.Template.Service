@@ -64,6 +64,7 @@
         {
           "condition": "(!enablePersistence)",
           "exclude": [
+            "FewBox.Template.Service/Controllers/AppsController*",
             "FewBox.Template.Service/AutoMapperProfiles/**/*",
             "FewBox.Template.Service.Repository/**/*",
             "FewBox.Template.Service.Model/Repositories/**/*",

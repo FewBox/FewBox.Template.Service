@@ -8,25 +8,25 @@ using Moq;
 namespace FewBox.Template.Service.TestSuite
 {
     [TestClass]
-    public class HealthyControllerUnitTest
+    public class FewBoxControllerUnitTest
     {
-        private HealthyController HealthyController { get; set; }
+        private FewBoxController FewBoxController { get; set; }
 
         [TestInitialize]
         public void Init()
         {
             // E.G: l.Method(It.IsAny<string>());
-            var appService = Mock.Of<IAppService>(l=>
-                l.GetHealtyInfo()==new HealthyDto{ Version = "1.0.1" });
-            this.HealthyController = new HealthyController(appService);
+            var fewboxService = Mock.Of<IFewBoxService>(l=>
+                l.GetAuthor()== new AuthorDto { Name = "1.0.1" });
+            this.FewBoxController = new FewBoxController(fewboxService);
         }
 
 
         [TestMethod]
         public void TestGet()
         {
-            var response = this.HealthyController.Get();
-            Assert.AreEqual("1.0.1", response.Payload.Version);
+            var response = this.FewBoxController.Get();
+            Assert.AreEqual("1.0.1", response.Payload.Name);
         }
     }
 }
