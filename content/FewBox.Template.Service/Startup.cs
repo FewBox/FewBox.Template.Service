@@ -6,6 +6,7 @@ using FewBox.Core.Persistence.Orm;
 using FewBox.Core.Utility.Net;
 using FewBox.Core.Utility.Formatter;
 using FewBox.Core.Web.Config;
+using FewBox.Core.Web.Error;
 using FewBox.Core.Web.Filter;
 using FewBox.Core.Web.Orm;
 using FewBox.Core.Web.Security;
@@ -88,6 +89,7 @@ namespace FewBox.Template.Service
             services.AddAutoMapper();
             services.AddMemoryCache();
             services.AddRouting(options => options.LowercaseUrls = true);
+            services.AddSingleton<IExceptionProcessorService, ExceptionProcessorService>();
             // Used for Config.
             // Used for [Authorize(Policy="JWTRole_ControllerAction")].
             var jwtConfig = this.Configuration.GetSection("JWTConfig").Get<JWTConfig>();
