@@ -122,6 +122,7 @@ namespace FewBox.Template.Service
             // services.AddScoped<INotificationHandler, ConsoleNotificationHandler>();
             services.AddScoped<ILogHandler, ServiceLogHandler>();
             services.AddScoped<INotificationHandler, ServiceNotificationHandler>();
+            services.AddScoped<ITryCatchService, TryCatchService>();
             // Used for IHttpContextAccessor&IActionContextAccessor context.
             services.AddHttpContextAccessor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
