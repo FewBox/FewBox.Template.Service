@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Dapper" Version="2.0.35" />
+    <PackageReference Include="FewBox.Core.Persistence" Version="1.0.39" />
+    <PackageReference Include="FewBox.Core.Utility" Version="1.0.31" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FewBox.Template.Service.Model\FewBox.Template.Service.Model.csproj" />
+  </ItemGroup>
+
+</Project>

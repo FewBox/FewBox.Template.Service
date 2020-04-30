@@ -5,14 +5,14 @@
 ## Install Nuget
 https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools
 ## Install and uninstall from local location.
-- dotnet new -i C:\Users\<USER>\Documents\Templates\FewBox.Template.Service
+- dotnet new -i ..\FewBox.Template.Service
 - dotnet new -l
-- dotnet new fb-svc
-- dotnet new -u C:\Users\<USER>\Documents\Templates\FewBox.Template.Service
+- dotnet new fb | fbp
+- dotnet new -u ..\FewBox.Template.Service
 ## Install and uninstall from Nuget.
 - dotnet new -i FewBox.Template.Service
 - dotnet new -l
-- dotnet new fb-svc
+- dotnet new fb | fbp
 - dotnet new -u FewBox.Template.Service
 ## Params
-- dotnet new fb-svc --help
+- dotnet new fb | fbp --help
