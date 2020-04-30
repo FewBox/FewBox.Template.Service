@@ -1,4 +1,5 @@
 using AutoMapper;
+using Dapper;
 using System;
 using System.Text;
 using FewBox.Core.Persistence.Orm;
@@ -49,7 +50,7 @@ namespace FewBox.Template.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // SqlMapper.AddTypeHandler(new SQLiteGuidTypeHandler()); // Note: SQLite
+            SqlMapper.AddTypeHandler(new SQLiteGuidTypeHandler()); // Note: SQLite
             RestfulUtility.IsCertificateNeedValidate = false; // Whether check the ceritfication.
             RestfulUtility.IsLogging = true; // Todo: Need to remove.
             JsonUtility.IsCamelCase = true; // Is camel case.
