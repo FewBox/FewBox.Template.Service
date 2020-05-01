@@ -8,4 +8,4 @@ env:
 script:
   - dotnet pack --output nupkgs $TRAVIS_BUILD_DIR/$PROJECTNAME.csproj
 after_success:
-  - dotnet nuget push $TRAVIS_BUILD_DIR/$PROJECTNAME.*.nupkg -k $NUGET_KEY -s https://api.nuget.org/v3/index.json
+  - dotnet nuget push $TRAVIS_BUILD_DIR/nupkg/$PROJECTNAME.*.nupkg -k $NUGET_KEY -s https://api.nuget.org/v3/index.json
