@@ -3,14 +3,14 @@
   "author": "FewBox",
   "classifications": [
     "FewBox",
-    "Plugin"
+    "Job"
   ],
-  "identity": "FewBox.Template.Plugin",
-  "name": "FewBox Plugin",
-  "shortName": "fbp",
+  "identity": "FewBox.Template.Job",
+  "name": "FewBox Job",
+  "shortName": "fbj",
   "tags": {
     "language": "C#",
-    "type": "plugin"
+    "type": "job"
   },
   "sourceName": "FewBox.Template.Service",
   "preferNameDirectory": true,

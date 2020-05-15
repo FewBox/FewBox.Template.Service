@@ -1,24 +1,16 @@
 {
     "symbolInfo": {
-        "copyrightName": {
-            "longName": "copyright-name",
-            "shortName": "cn"
+        "brand": {
+            "longName": "brand",
+            "shortName": "b"
         },
-        "travisName": {
-            "longName": "travis-name",
-            "shortName": "tn"
+        "copyright": {
+            "longName": "copyright",
+            "shortName": "c"
         },
-        "serviceName": {
-            "longName": "service-name",
-            "shortName": "sn"
-        },
-        "enablePersistence": {
-            "longName": "enable-persistence",
-            "shortName": "ep"
-        },
-        "enableAuthentication": {
-            "longName": "enable-authentication",
-            "shortName": "ea"
+        "service": {
+            "longName": "service",
+            "shortName": "s"
         },
         "skipRestore": {
             "longName": "skip-restore",
