@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FewBox.Template.Service.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/v{v:apiVersion}/[controller]")]
     public class FewBoxController : ControllerBase
     {
         private  IFewBoxService FewBoxService { get; set; }

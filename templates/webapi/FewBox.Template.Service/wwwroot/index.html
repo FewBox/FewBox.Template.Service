@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.3/signalr.min.js"></script>
+    <script type="text/javascript">
+        window.connection = new signalR.HubConnectionBuilder()
+            .withUrl(`https://localhost:5001/notificationHub`,
+                {
+                    //skipNegotiation: true,
+                    //transport: signalR.HttpTransportType.WebSockets,
+                    accessTokenFactory: () => {
+                        return;
+                    }
+                })
+            .build();
+        window.connection.start().catch(err => console.error(err));
+        window.connection.on("notify", (clientId, message) => {
+            console.log(`${clientId}:${message}`);
+        });
+    </script>
+</head>
+
+<body>
+    <div id="notify">Notify</div>
+    <script type="text/javascript">
+        let notify = document.getElementById('notify');
+        notify.addEventListener("click", function () {
+            connection.invoke("Notify", "fewbox", "Go go go!").catch(err => console.error(err));
+        });
+    </script>
+</body>
+
+</html>
