@@ -141,6 +141,19 @@ namespace FewBox.Template.Service
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Key))
                 };
             });
+            // Used for ApiVersion
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true; // Show versions in response.
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                options.DefaultApiVersion = new ApiVersion(1, 0); // new ApiVersion(1, 0, "alpha");
+            });
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
             // Used for Swagger Open Api Document.
             services.AddOpenApiDocument(config =>
             {
