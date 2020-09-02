@@ -9,6 +9,7 @@ using NSwag.Generation.AspNetCore;
 using FewBox.Core.Web.Extension;
 using FewBox.Template.Service.Model.Repositories;
 using FewBox.Template.Service.Repository;
+using FewBox.Template.Service.Hubs;
 
 namespace FewBox.Template.Service
 {
@@ -62,11 +63,15 @@ namespace FewBox.Template.Service
             app.UseAuthorization();
             app.UseOpenApi();
             app.UseStaticFiles();
-            app.UseCors("all");
             if (env.IsDevelopment())
             {
+                app.UseCors("dev");
                 app.UseSwaggerUi3();
                 app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseCors();
             }
             if (env.IsStaging())
             {
@@ -81,6 +86,7 @@ namespace FewBox.Template.Service
             }
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<NotificationHub>("notificationHub");
                 endpoints.MapControllers();
             });
         }

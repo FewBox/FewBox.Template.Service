@@ -19,7 +19,7 @@ namespace FewBox.Template.Service.Controllers
         [HttpPost]
         public void TestTransaction([FromBody] NotificationDto notificationDto)
         {
-            this.HubContext.Clients.All.SendAsync("notify", notificationDto.ClientId, notificationDto.Message);
+            this.HubContext.Clients.All.SendAsync("notify", notificationDto.Message, notificationDto.Description);
         }        
     }
 }

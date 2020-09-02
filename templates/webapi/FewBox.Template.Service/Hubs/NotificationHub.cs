@@ -7,9 +7,9 @@ namespace FewBox.Template.Service.Hubs
     [Authorize(Policy="JWTRole_Hub")]
     public class NotificationHub : Hub
     {
-        public async Task Notify(string clientId, string message)
+        public async Task Notify(string message, string description)
         {
-            await Clients.All.SendAsync("notify", clientId, message);
+            await Clients.All.SendAsync("notify", message, description);
         }
     }
 }
