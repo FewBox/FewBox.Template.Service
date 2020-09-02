@@ -5,8 +5,8 @@
 ## Install Nuget
 https://docs.microsoft.com/en-us/nuget/install-nuget-client-tools
 ## Install and uninstall from local location.
-- dotnet new -i {Source Path}
-- dotnet new -u {Source Path}
+- dotnet new -i ./
+- dotnet new -u ./
 ## Install and uninstall from Nuget.
 - dotnet new -i FewBox.Template.Service
 - dotnet new -u FewBox.Template.Service
