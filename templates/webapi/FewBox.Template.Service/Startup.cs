@@ -3,11 +3,15 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using NSwag;
-using NSwag.Generation.Processors.Security;
-using NSwag.Generation.AspNetCore;
 using FewBox.Core.Web.Extension;
+using NSwag;
+using NSwag.Generation.AspNetCore;
+using NSwag.Generation.Processors.Security;
+using FewBox.Service.Auth.Model.Configs;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using FewBox.Template.Service.Model.Repositories;
+using FewBox.Template.Service.Model.Services;
 using FewBox.Template.Service.Repository;
 using FewBox.Template.Service.Hubs;
 
@@ -27,21 +31,7 @@ namespace FewBox.Template.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFewBox(FewBoxDBType.SQLite); // Todo: Need to change to MySQL.
-            services.AddCors(
-                options =>
-                {
-                    options.AddDefaultPolicy(
-                        builder =>
-                        {
-                            builder.SetIsOriginAllowedToAllowWildcardSubdomains().WithOrigins("https://fewbox.com").AllowAnyMethod().AllowAnyHeader();
-                        });
-                    options.AddPolicy("all",
-                        builder =>
-                        {
-                            builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
-                        });
-                }); // Cors.
+            services.AddFewBox(FewBoxDBType.SQLite, FewBoxAuthType.Payload, new ApiVersion(1, 0, "alpha1")); // Todo: Need to change to MySQL.
             // Used for Swagger Open Api Document.
             services.AddOpenApiDocument(config =>
             {
@@ -57,37 +47,10 @@ namespace FewBox.Template.Service
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            app.UseHttpsRedirection();
-            app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
-            app.UseOpenApi();
-            app.UseStaticFiles();
-            if (env.IsDevelopment())
-            {
-                app.UseCors("dev");
-                app.UseSwaggerUi3();
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseCors();
-            }
-            if (env.IsStaging())
-            {
-                app.UseSwaggerUi3();
-                app.UseDeveloperExceptionPage();
-            }
-            if (env.IsProduction())
-            {
-                app.UseReDoc(c => c.DocumentPath = "/swagger/v1/swagger.json");
-                app.UseReDoc(c => c.DocumentPath = "/swagger/v2/swagger.json");
-                app.UseHsts();
-            }
+            app.UseFewBox(new List<string>{"/swagger/v1/swagger.json","/swagger/v2/swagger.json"} );
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<NotificationHub>("notificationHub");
-                endpoints.MapControllers();
             });
         }
 
