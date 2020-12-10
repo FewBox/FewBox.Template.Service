@@ -10,10 +10,13 @@ using NSwag.Generation.Processors.Security;
 using FewBox.Service.Auth.Model.Configs;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Reflection;
 using FewBox.Template.Service.Model.Repositories;
 using FewBox.Template.Service.Model.Services;
 using FewBox.Template.Service.Repository;
 using FewBox.Template.Service.Hubs;
+using FewBox.SDK.Extension;
+using FewBox.SDK.Auth;
 
 namespace FewBox.Template.Service
 {
@@ -90,6 +93,10 @@ namespace FewBox.Template.Service
             {
                 Name = "Use under license",
                 Url = "https://fewbox.com/license"
+            };
+            string service = Assembly.GetEntryAssembly().GetName().Name;
+            document.Info.ExtensionData = new Dictionary<string, object> {
+                {"Service", service}
             };
         }
     }
