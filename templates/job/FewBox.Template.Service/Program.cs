@@ -1,7 +1,7 @@
-using FewBox.Core.Utility.Net;
-using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace FewBox.Template.Service
 {
@@ -10,22 +10,16 @@ namespace FewBox.Template.Service
         private static IConfigurationRoot Configuration { get; set; }
         public static void Main(string[] args)
         {
-            IConfigurationBuilder builder = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-            .AddEnvironmentVariables();
-            Configuration = builder.Build();
-            var endpoint = Configuration.GetSection("Endpoint").Get<Endpoint>();
-            string url = $"{endpoint.Protocol}://{endpoint.Host}";
-            Console.WriteLine(url);
-            string response = HttpUtility.Get(url, new List<Header> { });
-            Console.WriteLine("Hello FewBox!");
-        }
+            IServiceCollection services = new ServiceCollection();
+            Startup startup = new Startup();
+            startup.ConfigureServices(services);
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            var logger = serviceProvider.GetService<ILoggerFactory>().CreateLogger<Program>();
+            logger.LogInformation("Wellcome to use FewBox Job!");
 
-        public class Endpoint
-        {
-            public string Protocol { get; set; }
-            public string Host { get; set; }
-            public int Port { get; set; }
+            // Get Service and call method
+            var job = serviceProvider.GetService<IJob>();
+            job.Execute();
         }
     }
 }
