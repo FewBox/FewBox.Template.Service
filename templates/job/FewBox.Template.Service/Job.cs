@@ -1,5 +1,7 @@
 using System;
 using Microsoft.Extensions.Logging;
+using FewBox.Core.Utility.Net;
+using System.Collections.Generic;
 
 namespace FewBox.Template.Service
 {
