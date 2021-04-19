@@ -1,0 +1,20 @@
+{
+    "symbolInfo": {
+        "brand": {
+            "longName": "brand",
+            "shortName": "b"
+        },
+        "copyright": {
+            "longName": "copyright",
+            "shortName": "c"
+        },
+        "service": {
+            "longName": "service",
+            "shortName": "s"
+        },
+        "skipRestore": {
+            "longName": "skip-restore",
+            "shortName": "sr"
+        }
+    }
+}
