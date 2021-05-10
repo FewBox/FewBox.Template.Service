@@ -121,6 +121,7 @@ namespace FewBox.Template.Service.Boot.FewBox
                 sourceBuilder.Append($@"
                 using AutoMapper;
                 using FewBox.Core.Web.Controller;
+                using FewBox.Core.Web.Token;
                 using FewBox.Template.Service.Model.Dtos;
                 using FewBox.Template.Service.Model.Entities;
                 using FewBox.Template.Service.Model.Repositories;
@@ -133,7 +134,7 @@ namespace FewBox.Template.Service.Boot.FewBox
                     [Authorize(Policy=""JWTRole_ControllerAction"")]
                     public class {entityName}sController : ResourcesController<I{entityName}Repository, {entityName}, {entityName}Dto, {entityName}PersistantDto>
                     {{
-                        public {entityName}sController(I{entityName}Repository {entityName.ToLower()}Repository, IMapper mapper) : base({entityName.ToLower()}Repository, mapper)
+                        public {entityName}sController(I{entityName}Repository {entityName.ToLower()}Repository, ITokenService tokenService, IMapper mapper) : base({entityName.ToLower()}Repository, tokenService, mapper)
                         {{
                             // SQLite ID must be Upcase.
                         }}
