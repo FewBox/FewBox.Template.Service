@@ -9,6 +9,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Hosting;
 
 namespace FewBox.Template.Service
 {
@@ -20,7 +21,22 @@ namespace FewBox.Template.Service
         }
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
-            WebHost.CreateDefaultBuilder(args)
-                .UseStartup<Startup>();
+            Host.CreateDefaultBuilder(args)
+                /*.ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders();
+                    logging.AddConsole();
+                })*/
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseSentry(options =>
+                    {
+                        options.BeforeSend = @event =>
+                        {
+                            return @event;
+                        };
+                    });
+                    webBuilder.UseStartup<Startup>();
+                });
     }
 }
