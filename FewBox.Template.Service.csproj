@@ -8,7 +8,7 @@
     <Authors>FewBox</Authors>
     <Description>Creates the FewBox service.</Description>
     <PackageTags>FewBox,Template</PackageTags>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <NoDefaultExcludes>true</NoDefaultExcludes>
     <!--The <IncludeContentInPack> setting is set to true to include any file the project sets as content in the NuGet package.-->
     <IncludeContentInPack>true</IncludeContentInPack>

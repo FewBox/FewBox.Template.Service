@@ -10,7 +10,7 @@ install:
   - dotnet restore $PROJECTNAME
 script:
   - dotnet publish -c Release $PROJECTNAME/$PROJECTNAME.csproj -p:FileVersion=$TRAVIS_JOB_NUMBER
-  - cd $TRAVIS_BUILD_DIR/$PROJECTNAME/bin/Release/netcoreapp3.1/publish
+  - cd $TRAVIS_BUILD_DIR/$PROJECTNAME/bin/Release/net6.0/publish
   - cp $TRAVIS_BUILD_DIR/Dockerfile ./
   - cp $TRAVIS_BUILD_DIR/.dockerignore ./
   # build latest image always
