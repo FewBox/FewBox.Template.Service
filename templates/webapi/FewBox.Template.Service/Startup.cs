@@ -10,11 +10,11 @@ using FewBox.Template.Service.Model.Repositories;
 using FewBox.Template.Service.Model.Services;
 using FewBox.Template.Service.Repository;
 using FewBox.Template.Service.Hubs;
+using FewBox.Template.Service.Middlewares;
 using FewBox.Core.Web.Token;
 using FewBox.Core.Web.Extension;
 using FewBox.Core.Utility.Net;
 using System;
-using FewBox.Service.Shipping.Middlewares;
 
 namespace FewBox.Template.Service
 {

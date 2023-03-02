@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
-namespace FewBox.Service.Shipping.Middlewares
+namespace FewBox.Template.Service.Middlewares
 {
     public class FewBoxMiddleware
     {
