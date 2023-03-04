@@ -1,12 +1,11 @@
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text.Json;
+using System.IO;
 using Microsoft.CodeAnalysis;
 
-namespace FewBox.Template.Service.Engine
+namespace FewBox.Template.Service.Boot
 {
-    public static class LowCodeEngine
+    public static class LowcodeEngine
     {
         public static IEnumerable<AdditionalText> GetEntityFiles(GeneratorExecutionContext context)
         {
@@ -35,7 +34,7 @@ namespace FewBox.Template.Service.Engine
 
         public static IDictionary<string, EntityMeta> GetEntityMetaManifest(GeneratorExecutionContext context, AdditionalText entityFile)
         {
-            var entityMetaManifest = JsonSerializer.Deserialize<IDictionary<string, EntityMeta>>(GetEntityContent(context, entityFile));
+            var entityMetaManifest = System.Text.Json.JsonSerializer.Deserialize<IDictionary<string, EntityMeta>>(GetEntityContent(context, entityFile));
             return entityMetaManifest;
         }
     }

@@ -28,18 +28,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FewBox.Template.Service.Model\FewBox.Template.Service.Model.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="true" />
-    <ProjectReference Include="..\FewBox.Template.Service.Domain\FewBox.Template.Service.Domain.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="true" />
-    <ProjectReference Include="..\FewBox.Template.Service.Repository\FewBox.Template.Service.Repository.csproj"
-      OutputItemType="Analyzer"
-      ReferenceOutputAssembly="true" />
+    <ProjectReference Include="..\FewBox.Template.Service.Model\FewBox.Template.Service.Model.csproj" />
+    <ProjectReference Include="..\FewBox.Template.Service.Domain\FewBox.Template.Service.Domain.csproj" />
+    <ProjectReference Include="..\FewBox.Template.Service.Repository\FewBox.Template.Service.Repository.csproj" />
     <ProjectReference Include="..\FewBox.Template.Service.Boot\FewBox.Template.Service.Boot.csproj"
       OutputItemType="Analyzer"
-      ReferenceOutputAssembly="true" />
+      ReferenceOutputAssembly="false" />
   </ItemGroup>
 
   <ItemGroup>
