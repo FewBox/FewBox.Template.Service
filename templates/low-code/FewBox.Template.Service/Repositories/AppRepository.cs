@@ -9,7 +9,7 @@ namespace FewBox.Template.Service.Repository
     {
         public IEnumerable<App> FindAllByName(string name)
         {
-            return this.UnitOfWork.Connection.Query<App>($"select * from {TableName} where Name=@Name", new { Name = name });
+            return this.UnitOfWork.Connection.Query<App>($"select * from {TableName} where Name = @Name", new { Name = $"{name}" });
         }
     }
 }
