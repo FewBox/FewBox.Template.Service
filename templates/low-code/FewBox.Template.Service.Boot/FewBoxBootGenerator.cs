@@ -142,9 +142,9 @@ namespace FewBox.Template.Service.Boot
 
                 namespace {Consts.Namespace}.AutoMapperProfiles
                 {{
-                    public partial class MapperProfiles : Profile
+                    public partial class RepositoryMapperProfiles : Profile
                     {{
-                        public MapperProfiles()
+                        public RepositoryMapperProfiles()
                         {{");
             var entityFiles = LowcodeEngine.GetEntityFiles(context);
             foreach (var entityFile in entityFiles)
@@ -167,10 +167,11 @@ namespace FewBox.Template.Service.Boot
                     }
                 }
             }
+            sourceBuilder.AppendLine($@"this.ExtendMapperProfiles();");
             sourceBuilder.Append($@"}}
                     }}
                 }}");
-            context.AddSource($"MapperProfiles.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
+            context.AddSource($"RepositoryMapperProfiles.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
         }
         private void GenerateRepositories(GeneratorExecutionContext context)
         {
