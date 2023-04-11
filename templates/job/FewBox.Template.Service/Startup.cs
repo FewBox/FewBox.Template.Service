@@ -18,15 +18,15 @@ namespace FewBox.Template.Service
 
         public void ConfigureServices(IServiceCollection services)
         {
-            var endpoint = Configuration.GetSection("Endpoint").Get<Endpoint>();
-            services.AddSingleton(endpoint);
+            var jobConfig = Configuration.GetSection("Job").Get<JobConfig>();
+            services.AddSingleton(jobConfig);
             services.AddLogging(configure =>
             {
                 configure.AddConsole();
                 configure.AddConfiguration(this.Configuration.GetSection("Logging"));
             })
             .Configure<LoggerFilterOptions>(this.Configuration);
-            services.AddSingleton<IJob, Job>();
+            services.AddSingleton<IJobBooter, JobBooter>();
         }
     }
 }

@@ -5,14 +5,14 @@ using System.Collections.Generic;
 
 namespace FewBox.Template.Service
 {
-    public class Job : IJob
+    public class JobBooter : IJobBooter
     {
-        private Endpoint Endpoint { get; set; }
+        private JobConfig Job { get; set; }
         private ILogger Logger { get; set; }
 
-        public Job(Endpoint endpoint, ILogger<Job> logger)
+        public JobBooter(JobConfig job, ILogger<JobBooter> logger)
         {
-            this.Endpoint = endpoint;
+            this.Job = job;
             this.Logger = logger;
         }
 

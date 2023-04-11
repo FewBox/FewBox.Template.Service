@@ -1,6 +1,6 @@
 namespace FewBox.Template.Service
 {
-    public interface IJob
+    public interface IJobBooter
     {
         void Execute();
     }
