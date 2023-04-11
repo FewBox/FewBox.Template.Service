@@ -20,12 +20,13 @@ namespace FewBox.Template.Service
         {
             try
             {
-                string url = $"{this.Endpoint.Protocol}://{this.Endpoint.Host}:{this.Endpoint.Port}";
+                string port = this.Job.Endpoint.Port != 0 ? $":{this.Job.Endpoint.Port}" : String.Empty;
+                string url = $"{this.Job.Endpoint.Protocol}://{this.Job.Endpoint.Host}{port}";
                 Console.WriteLine(url);
                 string response = HttpUtility.Get(url, new List<Header> { });
                 Console.WriteLine("Hello FewBox!");
             }
-            catch(Exception exception)
+            catch (Exception exception)
             {
                 this.Logger.LogError(exception.Message);
             }
