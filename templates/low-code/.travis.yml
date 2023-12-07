@@ -2,7 +2,7 @@ language: csharp
 mono: none
 sudo: required
 dist: xenial
-dotnet: 6.0
+dotnet: 8.0
 env:
   # Docker slug
   - DOCKER_REPO_SLUG=fewbox/FB_SERVICE PROJECTNAME=FewBox.Template.Service PROJECTUNITTESTNAME=$PROJECTNAME.UnitTest

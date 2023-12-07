@@ -1,7 +1,0 @@
-{
-    "Name": {
-        "Type": "string",
-        "DbType": "varchar",
-        "Length": 20
-    }
-}

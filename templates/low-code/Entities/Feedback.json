@@ -1,0 +1,12 @@
+{
+    "Score": {
+        "Type": "int",
+        "DbType": "int",
+        "Length": 11
+    },
+    "Thoughts": {
+        "Type": "string",
+        "DbType": "varchar",
+        "Length": 500
+    }
+}

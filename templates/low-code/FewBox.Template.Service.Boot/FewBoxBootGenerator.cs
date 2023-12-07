@@ -1,7 +1,11 @@
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Text;
+using FewBox.Service.Boot;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using FewBox.Template.Service.Engine;
 
 namespace FewBox.Template.Service.Boot
 {
@@ -10,10 +14,7 @@ namespace FewBox.Template.Service.Boot
     {
         public void Execute(GeneratorExecutionContext context)
         {
-            this.GenerateJsonFiles(context);
-            this.GenerateDtos(context);
-            this.GenerateEntities(context);
-            this.GenerateRepositories(context);
+            LowCodeEngine.GenerateDebug(context);
             this.GenerateStartup(context);
             this.GenerateControllers(context);
             this.GenerateMapper(context);
@@ -25,35 +26,18 @@ namespace FewBox.Template.Service.Boot
             Debug.WriteLine("Initalize code generator");
         }
 
-        private void GenerateJsonFiles(GeneratorExecutionContext context)
-        {
-            string jsonFiles = String.Join(",", LowcodeEngine.GetEntityFiles(context).Select(file => Path.GetFileNameWithoutExtension(file.Path)));
-            var sourceBuilder = new StringBuilder();
-            sourceBuilder.Append($@"
-            namespace {Consts.Namespace}.Boot
-            {{
-                public static class Lowcode
-                {{
-                    public static string GetJsonFiles()
-                    {{
-                        return @""{jsonFiles}"";
-                    }}
-                }}
-            }}");
-            var sourceText = SourceText.From(sourceBuilder.ToString(), Encoding.UTF8);
-            string hintName = $"Lowcode.cs";
-            context.AddSource(hintName, sourceText);
-        }
-
         private void GenerateStartup(GeneratorExecutionContext context)
         {
+            string @namespace = LowCodeEngine.GetNamespace(context);
             var sourceBuilder = new StringBuilder();
             sourceBuilder.Append($@"
             using Microsoft.Extensions.DependencyInjection;
-            using {Consts.Namespace}.Model.Repositories;
-            using {Consts.Namespace}.Repository;
+            using {@namespace}.Model.Repositories;
+            using {@namespace}.Model.Services;
+            using {@namespace}.Repository;
+            using {@namespace}.Domain;
 
-            namespace {Consts.Namespace}
+            namespace {@namespace}
             {{
                 public partial class Startup
                 {{
@@ -61,16 +45,16 @@ namespace FewBox.Template.Service.Boot
                     private void ConfigureLowcodeServices(IServiceCollection services)
                     {{
             ");
-            var entityFiles = LowcodeEngine.GetEntityFiles(context);
+            var entityFiles = LowCodeEngine.GetEntityFiles(context);
             foreach (var entityFile in entityFiles)
             {
-                string entityName = LowcodeEngine.GetFileName(entityFile);
+                string entityName = LowCodeEngine.GetFileName(entityFile);
                 sourceBuilder.Append($@"services.AddScoped<I{entityName}Repository, {entityName}Repository>();");
             }
-            var serviceFiles = LowcodeEngine.GetServiceFiles(context);
+            var serviceFiles = LowCodeEngine.GetServiceFiles(context);
             foreach (var serviceFile in serviceFiles)
             {
-                string serviceName = LowcodeEngine.GetFileName(serviceFile);
+                string serviceName = LowCodeEngine.GetFileName(serviceFile);
                 sourceBuilder.Append($@"services.AddScoped<I{serviceName}Service, {serviceName}Service>();");
             }
             sourceBuilder.Append($@"
@@ -79,16 +63,17 @@ namespace FewBox.Template.Service.Boot
             }}
             ");
             var sourceText = SourceText.From(sourceBuilder.ToString(), Encoding.UTF8);
-            string hintName = $"Startup.cs";
+            string hintName = $"Startup.g.cs";
             context.AddSource(hintName, sourceText);
         }
 
         private void GenerateControllers(GeneratorExecutionContext context)
         {
-            var entityFiles = LowcodeEngine.GetEntityFiles(context);
+            string @namespace = LowCodeEngine.GetNamespace(context);
+            var entityFiles = LowCodeEngine.GetEntityFiles(context);
             foreach (var entityFile in entityFiles)
             {
-                string entityName = LowcodeEngine.GetFileName(entityFile);
+                string entityName = LowCodeEngine.GetFileName(entityFile);
                 string controllerName;
                 if (entityName.EndsWith("y"))
                 {
@@ -107,13 +92,13 @@ namespace FewBox.Template.Service.Boot
                 using AutoMapper;
                 using FewBox.Core.Web.Controller;
                 using FewBox.Core.Web.Token;
-                using {Consts.Namespace}.Model.Dtos;
-                using {Consts.Namespace}.Model.Entities;
-                using {Consts.Namespace}.Model.Repositories;
+                using {@namespace}.Model.Dtos;
+                using {@namespace}.Model.Entities;
+                using {@namespace}.Model.Repositories;
                 using Microsoft.AspNetCore.Authorization;
                 using Microsoft.AspNetCore.Mvc;
 
-                namespace {Consts.Namespace}.Controllers
+                namespace {@namespace}.Controllers
                 {{
                     [Route(""api/v{{v:apiVersion}}/[controller]"")]
                     [Authorize(Policy=""JWTPayload_ControllerAction"")]
@@ -127,30 +112,75 @@ namespace FewBox.Template.Service.Boot
                 }}");
                 var sourceText = SourceText.From(sourceBuilder.ToString(), Encoding.UTF8);
 
-                string hintName = $"{controllerName}Controller.cs";
+                string hintName = $"{controllerName}Controller.g.cs";
                 context.AddSource(hintName, sourceText);
             }
+            var schemaScriptBuilder = new StringBuilder();
+            foreach (var entityFile in entityFiles)
+            {
+                var fieldBuilder = new StringBuilder();
+                string entityName = LowCodeEngine.GetFileName(entityFile);
+                string tableName = entityName.ToLower();
+                var entityMetaManifest = LowCodeEngine.GetEntityMetaManifest(context, entityFile);
+                foreach (string key in entityMetaManifest.Keys)
+                {
+                    var entity = entityMetaManifest[key];
+                    fieldBuilder.Append($" `{key}` {entity.DbType}({entity.Length}) DEFAULT NULL,\r\n");
+                }
+                schemaScriptBuilder.Append($@"
+                CREATE TABLE IF NOT EXISTS {tableName} (
+                        `Id` char(36) NOT NULL,
+                        {fieldBuilder.ToString().Trim()}
+                        `CreatedBy` char(36) DEFAULT NULL,
+                        `ModifiedBy` char(36) DEFAULT NULL,
+                        `CreatedTime` datetime DEFAULT NULL,
+                        `ModifiedTime` datetime DEFAULT NULL,
+                        PRIMARY KEY (`Id`)
+                    );
+                ");
+            }
+            var lowCodeController = $@"
+                using FewBox.Core.Web.Dto;
+                using Microsoft.AspNetCore.Mvc;
+
+                namespace {@namespace}.Controllers
+                {{
+                    public partial class LowCodeController : ControllerBase
+                    {{
+                        [HttpGet(""schema"")]
+                        public PayloadResponseDto<string> Schema()
+                        {{
+                            return new PayloadResponseDto<string>{{
+                                IsSuccessful = true,
+                                Payload = $@""{schemaScriptBuilder}""
+                            }};
+                        }}
+                    }}
+                }}";
+            var lowCodeSourceText = SourceText.From(lowCodeController, Encoding.UTF8);
+            context.AddSource("LowCodeController.g.cs", lowCodeSourceText);
         }
 
         private void GenerateMapper(GeneratorExecutionContext context)
         {
+            string @namespace = LowCodeEngine.GetNamespace(context);
             var sourceBuilder = new StringBuilder();
             sourceBuilder.Append($@"
                 using AutoMapper;
-                using {Consts.Namespace}.Model.Dtos;
-                using {Consts.Namespace}.Model.Entities;
+                using {@namespace}.Model.Dtos;
+                using {@namespace}.Model.Entities;
 
-                namespace {Consts.Namespace}.AutoMapperProfiles
+                namespace {@namespace}.AutoMapperProfiles
                 {{
                     public partial class RepositoryMapperProfiles : Profile
                     {{
                         public RepositoryMapperProfiles()
                         {{");
-            var entityFiles = LowcodeEngine.GetEntityFiles(context);
+            var entityFiles = LowCodeEngine.GetEntityFiles(context);
             foreach (var entityFile in entityFiles)
             {
-                string entityName = LowcodeEngine.GetFileName(entityFile);
-                var entityMetaManifest = LowcodeEngine.GetEntityMetaManifest(context, entityFile);
+                string entityName = LowCodeEngine.GetFileName(entityFile);
+                var entityMetaManifest = LowCodeEngine.GetEntityMetaManifest(context, entityFile);
                 sourceBuilder.AppendLine($@"
                             CreateMap<{entityName}, {entityName}Dto>();
                             CreateMap<{entityName}PersistantDto, {entityName}>();
@@ -167,148 +197,11 @@ namespace FewBox.Template.Service.Boot
                     }
                 }
             }
-            sourceBuilder.AppendLine($@"this.ExtendMapperProfiles();");
             sourceBuilder.Append($@"}}
                     }}
                 }}");
-            context.AddSource($"RepositoryMapperProfiles.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
-        }
-        private void GenerateRepositories(GeneratorExecutionContext context)
-        {
-            var entityFiles = LowcodeEngine.GetEntityFiles(context);
-            foreach (var entityFile in entityFiles)
-            {
-                string entityName = LowcodeEngine.GetFileName(entityFile);
-                var entityMetaManifest = LowcodeEngine.GetEntityMetaManifest(context, entityFile);
-                string segmentSql = String.Join(",", entityMetaManifest.Keys);
-                var repositorySourceBuilder = new StringBuilder();
-                repositorySourceBuilder.Append($@"
-                using Dapper;
-                using {Consts.Namespace}.Model.Entities;
-                using {Consts.Namespace}.Model.Repositories;
-                using FewBox.Core.Persistence.Orm;
-                using System;
-
-                namespace {Consts.Namespace}.Repository
-                {{
-                    public partial class {entityName}Repository : Repository<{entityName}>, I{entityName}Repository
-                    {{
-                        public {entityName}Repository(IOrmSession ormSession, ICurrentUser<Guid> currentUser)
-                        : base(""{entityName.ToLower()}"", ormSession, currentUser)
-                        {{
-                        }}
-
-                        protected override string GetSaveSegmentSql()
-                        {{
-                            return ""{segmentSql}"";
-                        }}
-
-                        protected override string GetUpdateSegmentSql()
-                        {{
-                            return ""{segmentSql}"";
-                        }}
-
-                        protected override string GetUpdateWithUniqueKeyWhereSegmentSql()
-                        {{
-                            throw new NotImplementedException();
-                        }}
-                    }}
-                }}");
-                var repositorySourceText = SourceText.From(repositorySourceBuilder.ToString(), Encoding.UTF8);
-                string repositoryHintName = $"{entityName}Repository.cs";
-                context.AddSource(repositoryHintName, repositorySourceText);
-                var modelSourceBuilder = new StringBuilder();
-                modelSourceBuilder.Append($@"
-                using {Consts.Namespace}.Model.Entities;
-                using FewBox.Core.Persistence.Orm;
-
-                namespace {Consts.Namespace}.Model.Repositories
-                {{
-                    public partial interface I{entityName}Repository : IRepository<{entityName}>
-                    {{
-                    }}
-                }}");
-                var modelSourceText = SourceText.From(modelSourceBuilder.ToString(), Encoding.UTF8);
-                string modelHintName = $"I{entityName}Repository.cs";
-                context.AddSource(modelHintName, modelSourceText);
-            }
+            context.AddSource($"RepositoryMapperProfiles.g.cs", SourceText.From(sourceBuilder.ToString(), Encoding.UTF8));
         }
 
-        private void GenerateEntities(GeneratorExecutionContext context)
-        {
-            var entityFiles = LowcodeEngine.GetEntityFiles(context);
-            foreach (var entityFile in entityFiles)
-            {
-                string entityName = LowcodeEngine.GetFileName(entityFile);
-                var entityMetaManifest = LowcodeEngine.GetEntityMetaManifest(context, entityFile);
-                var sourceBuilder = new StringBuilder();
-                sourceBuilder.Append($@"
-                using FewBox.Core.Persistence.Orm;
-
-                namespace {Consts.Namespace}.Model.Entities
-                {{
-                    public class {entityName} : Entity
-                    {{");
-                foreach (string key in entityMetaManifest.Keys)
-                {
-                    string type = entityMetaManifest[key].Type;
-                    sourceBuilder.AppendLine($@"public {type} {key} {{ get; set; }}");
-                }
-                sourceBuilder.Append($@"
-                    }}
-                }}");
-                var sourceText = SourceText.From(sourceBuilder.ToString(), Encoding.UTF8);
-                string hintName = $"{entityName}.cs";
-                context.AddSource(hintName, sourceText);
-            }
-        }
-
-        private void GenerateDtos(GeneratorExecutionContext context)
-        {
-            var entityFiles = LowcodeEngine.GetEntityFiles(context);
-            foreach (var entityFile in entityFiles)
-            {
-                string entityName = LowcodeEngine.GetFileName(entityFile);
-                var entityMetaManifest = LowcodeEngine.GetEntityMetaManifest(context, entityFile);
-                var showSourceBuilder = new StringBuilder();
-                showSourceBuilder.Append($@"
-                using FewBox.Core.Web.Dto;
-
-                namespace {Consts.Namespace}.Model.Dtos
-                {{
-                    public class {entityName}Dto : EntityDto
-                    {{");
-                foreach (string key in entityMetaManifest.Keys)
-                {
-                    string type = entityMetaManifest[key].Type;
-                    showSourceBuilder.AppendLine($@"public {type} {key} {{ get; set; }}");
-                }
-                showSourceBuilder.Append($@"
-                    }}
-                }}");
-                var showSourceText = SourceText.From(showSourceBuilder.ToString(), Encoding.UTF8);
-                string showHintName = $"{entityName}Dto.cs";
-                context.AddSource(showHintName, showSourceText);
-                var persistantSourceBuilder = new StringBuilder();
-                persistantSourceBuilder.Append($@"
-                using FewBox.Core.Web.Dto;
-
-                namespace {Consts.Namespace}.Model.Dtos
-                {{
-                    public class {entityName}PersistantDto : EntityDto
-                    {{");
-                foreach (string key in entityMetaManifest.Keys)
-                {
-                    string type = entityMetaManifest[key].Type;
-                    persistantSourceBuilder.AppendLine($@"public {type} {key} {{ get; set; }}");
-                }
-                persistantSourceBuilder.Append($@"
-                    }}
-                }}");
-                var persistantSourceText = SourceText.From(persistantSourceBuilder.ToString(), Encoding.UTF8);
-                string persistantHintName = $"{entityName}PersistantDto.cs";
-                context.AddSource(persistantHintName, persistantSourceText);
-            }
-        }
     }
 }

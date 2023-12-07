@@ -1,5 +1,5 @@
-/* Company: FB_BRAND */
-/* FB_COPYRIGHT */
+/* Company: FewBox */
+/* Copyright FewBox */
 using System;
 using System.Collections.Generic;
 using System.IO;

@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FewBox.Core.Utility" Version="1.0.40" />
+    <PackageReference Include="FewBox.Core.Utility" Version="1.0.41" />
   </ItemGroup>
 
 </Project>

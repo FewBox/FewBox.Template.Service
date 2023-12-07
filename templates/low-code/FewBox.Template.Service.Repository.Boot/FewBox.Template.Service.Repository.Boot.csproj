@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FewBox.Service.Boot\FewBox.Service.Boot.csproj"
+    <ProjectReference Include="..\FewBox.Service.Boot\FewBox.Service.Boot.csproj" 
       OutputItemType="Analyzer" />
   </ItemGroup>
 

@@ -1,3 +1,4 @@
+using Asp.Versioning;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -8,9 +9,11 @@ using FewBox.Core.Web.Token;
 using FewBox.Core.Web.Extension;
 using FewBox.Core.Utility.Net;
 using System;
-using FewBox.Template.Service.Middlewares;
 using FewBox.Template.Service.Model.Configs;
+using FewBox.Template.Service.Model.Repositories;
 using FewBox.Template.Service.Domain;
+using FewBox.Template.Service.Repository;
+using FewBox.Template.Service.Hubs;
 
 namespace FewBox.Template.Service
 {
@@ -18,12 +21,15 @@ namespace FewBox.Template.Service
     {
         private IList<ApiVersionDocument> ApiVersionDocuments = new List<ApiVersionDocument> {
                 new ApiVersionDocument{
-                    ApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0),
+                    ApiVersion = new ApiVersion(1, 0),
                     IsDefault = true
                 },
                 new ApiVersionDocument{
-                    ApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(2, 0, "alpha1"),
+                    ApiVersion = new ApiVersion(2, 0, "alpha1"),
                     IsDefault = false
+                },
+                new ApiVersionDocument{
+                    ApiVersion = new ApiVersion(2, 0, "beta1")
                 }
             };
         public Startup(IConfiguration configuration, IWebHostEnvironment environment)
@@ -38,14 +44,11 @@ namespace FewBox.Template.Service
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddFewBox(this.ApiVersionDocuments, FewBoxDBType.SQLite, FewBoxAuthType.Payload);
-            RestfulUtility.IsCertificateNeedValidate = false;
-            RestfulUtility.IsEnsureSuccessStatusCode = false;
-            RestfulUtility.IsLogging = true;
-            HttpUtility.IsCertificateNeedValidate = false;
-            HttpUtility.IsEnsureSuccessStatusCode = false;
+            services.AddFewBox(this.ApiVersionDocuments);
+            NetworkUtility.IsCertificateNeedValidate = false;
+            NetworkUtility.IsEnsureSuccessStatusCode = false;
+            NetworkUtility.IsLogging = true;
             // Biz
-            services.AddScoped<IAppRepository, AppRepository>();
             this.ConfigureLowcodeServices(services);
         }
 

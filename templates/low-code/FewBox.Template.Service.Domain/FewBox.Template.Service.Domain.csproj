@@ -1,18 +1,22 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FewBox.Core.Utility" Version="1.0.40" />
-    <PackageReference Include="FewBox.Core.Persistence" Version="1.0.45" />
-    <PackageReference Include="FewBox.Core.Web" Version="1.0.128" />
+    <PackageReference Include="FewBox.Core.Utility" Version="2.0.0-alpha3" />
+    <PackageReference Include="FewBox.Core.Persistence" Version="2.0.0-alpha2" />
+    <PackageReference Include="FewBox.Core.Web" Version="2.0.0-alpha2" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\FewBox.Template.Service.Model\FewBox.Template.Service.Model.csproj" />
     <ProjectReference Include="..\FewBox.Template.Service.Repository\FewBox.Template.Service.Repository.csproj" />
+    <ProjectReference Include="..\FewBox.Template.Service.Domain.Boot\FewBox.Template.Service.Domain.Boot.csproj"
+      OutputItemType="Analyzer"
+      ReferenceOutputAssembly="false" />
+    <AdditionalFiles Include="../Entities/*.json" />
   </ItemGroup>
 
 </Project>

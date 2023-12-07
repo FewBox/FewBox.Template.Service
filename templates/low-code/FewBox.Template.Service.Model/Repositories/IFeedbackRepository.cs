@@ -3,7 +3,7 @@ using FewBox.Core.Persistence.Orm;
 
 namespace FewBox.Template.Service.Model.Repositories
 {
-    public interface IAppRepository : IRepository<App>
+    public partial interface IFeedbackRepository : IRepository<Feedback>
     {
     }
 }

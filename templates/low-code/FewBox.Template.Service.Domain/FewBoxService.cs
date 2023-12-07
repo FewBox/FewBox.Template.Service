@@ -6,16 +6,16 @@ namespace FewBox.Template.Service.Domain
 {
     public class FewBoxService : IFewBoxService
     {
-        private FewBoxConfig FewBoxConfig { get; set; }
-        public FewBoxService(FewBoxConfig fewBoxConfig)
+        private LowCodeConfig LowCodeConfig { get; set; }
+        public FewBoxService(LowCodeConfig lowCodeConfig)
         {
-            this.FewBoxConfig = fewBoxConfig;
+            this.LowCodeConfig = lowCodeConfig;
         }
 
         public AuthorDto GetAuthor()
         {
             return new AuthorDto{
-                Name = this.FewBoxConfig.Author
+                Name = this.LowCodeConfig.Author
             };
         }
     }

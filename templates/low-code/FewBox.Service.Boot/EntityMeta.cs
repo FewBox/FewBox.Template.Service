@@ -1,4 +1,4 @@
-namespace FewBox.Template.Service.Boot
+namespace FewBox.Service.Boot
 {
     public class EntityMeta
     {

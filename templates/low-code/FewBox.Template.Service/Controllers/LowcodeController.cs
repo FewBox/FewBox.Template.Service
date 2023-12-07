@@ -1,20 +1,19 @@
-using System.Reflection;
-using System.Linq;
-using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using FewBox.Template.Service.Boot;
 
 namespace FewBox.Template.Service.Controllers
 {
     [ApiController]
     [Route("api/v{v:apiVersion}/[controller]")]
-    public class LowcodeController : ControllerBase
+    public partial class LowCodeController : ControllerBase
     {
 
-        [HttpGet]
-        public string Get()
+        [HttpGet("dryrun")]
+        public string Dryrun()
         {
-            return Lowcode.GetJsonFiles();
+            FewBox.Template.Service.Domain.Debug.Dryrun();
+            FewBox.Template.Service.Model.Debug.Dryrun();
+            FewBox.Template.Service.Repository.Debug.Dryrun();
+            return "See the debug log in console.";
         }
     }
 }
